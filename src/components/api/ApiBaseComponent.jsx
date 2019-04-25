@@ -37,7 +37,8 @@ const styles = theme => ({
   },
   codeBlock: {
     tabSize: 4,
-    padding: theme.spacing.unit * 4
+    padding: theme.spacing.unit * 4,
+    margin: 0
   },
   rightIcon: {
     marginLeft: theme.spacing.unit,
@@ -47,6 +48,12 @@ const styles = theme => ({
   },
   divider: {
     margin: theme.spacing.unit * 2
+  },
+  subContainer: {
+    marginTop: theme.spacing.unit * 2
+  },
+  table:{
+    marginBottom: theme.spacing.unit * 2
   }
 });
 
@@ -96,7 +103,7 @@ class ApiBaseComponent extends Component {
             <Typography variant="body2">
               Sample Request
             </Typography>
-            <Paper>
+            <Paper className={classes.subContainer}>
               <div className={classes.codeBlock}>
                 <Typography variant="caption">
                   Headers
@@ -119,6 +126,9 @@ class ApiBaseComponent extends Component {
                       </TableRow>
                   </TableBody>
                 </Table>
+                <Typography variant="caption">
+                  Body
+                </Typography>
                 <pre>
 
                 </pre>
@@ -131,16 +141,21 @@ class ApiBaseComponent extends Component {
             <Typography variant="body2">
               Sample Response
             </Typography>
-            <Paper>
-              <pre className={classes.codeBlock}>
-                {sampleResponse}
-              </pre>
+            <Paper className={classes.subContainer}>
+              <div className={classes.codeBlock}>
+                <Typography variant="caption">
+                  Body
+                </Typography>
+                <pre>
+                  {sampleResponse}
+                </pre>
+              </div>
             </Paper>
           </div>
+
           <div className={classes.container}>
             <Button variant="contained" color="primary" className={classes.button}>
               Send
-              {/* This Button uses a Font Icon, see the installation instructions in the docs. */}
               <SendIcon className={classes.rightIcon}>send</SendIcon>
             </Button>
           </div>

@@ -19,6 +19,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Footer from './Footer';
 
 import ApiBaseComponent from './api/ApiBaseComponent';
+import MenuList from '@material-ui/core/MenuList';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const drawerWidth = 240;
 
@@ -54,7 +56,17 @@ const styles = theme => ({
   },
   mainContainer: {
     width: '100%'
-  }
+  },
+  menuItem: {
+    '&:focus': {
+      backgroundColor: theme.palette.primary.main,
+      '& $primary, & $icon': {
+        color: theme.palette.common.white,
+      },
+    },
+  },
+  primary: {},
+  icon: {}
 });
 
 class Home extends React.Component {
@@ -76,15 +88,21 @@ class Home extends React.Component {
       <div>
         <div className={classes.toolbar} />
         <Divider />
-        <List>
-          {['Auth', 'Product Category', 'Product', 'Product Meta'].map((text, index) => (
-            <ListItem button key={text}>
-              {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
+        <MenuList>
+          <MenuItem className={classes.menuItem}>
+            <ListItemText classes={{ primary: classes.primary }}  primary="Auth" />
+          </MenuItem>
+          <MenuItem className={classes.menuItem}>
+            <ListItemText classes={{ primary: classes.primary }}  primary="Product Category" />
+          </MenuItem>
+          <MenuItem className={classes.menuItem}>
+            <ListItemText classes={{ primary: classes.primary }}  primary="Product" />
+          </MenuItem>
+          <Divider />
+        </MenuList>
+
+
+        
         <List>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
             <ListItem button key={text}>

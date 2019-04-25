@@ -96,13 +96,13 @@ class App extends React.Component {
       <Router>
         <MuiThemeProvider theme={nebulaTheme}>
           <div>
-            <HeaderBarContainer></HeaderBarContainer>
+            {/* <HeaderBarContainer></HeaderBarContainer> */}
 
             <PrivateRoute exact path="/" component={Home} />
 
             <Route exact path="/login" component={Login} />
 
-            <Footer></Footer>
+            {/* <Footer></Footer> */}
           </div>
         </MuiThemeProvider>
       </Router>

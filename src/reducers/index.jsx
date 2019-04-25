@@ -2,9 +2,11 @@
 
 import { combineReducers } from 'redux';
 import LoginReducer from './LoginReducer';
+import HomeReducer from './HomeReducer';
 
-const adminApp = combineReducers({
-  LoginReducer
+const apiDocApp = combineReducers({
+  LoginReducer,
+  HomeReducer
 })
 
-export default adminApp
+export default apiDocApp

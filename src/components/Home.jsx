@@ -21,6 +21,7 @@ import Footer from './Footer';
 import ApiBaseComponent from './api/ApiBaseComponent';
 import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
+import Auth from './api/auth/Auth';
 
 const drawerWidth = 240;
 
@@ -163,7 +164,7 @@ class Home extends React.Component {
         <main className={classes.mainContainer}>
           <div className={classes.content}>
             <div className={classes.toolbar} />
-            <ApiBaseComponent></ApiBaseComponent>
+            <Auth></Auth>
           </div>
 
           <Footer></Footer>

@@ -61,32 +61,12 @@ class ApiBaseComponent extends Component {
   render() {
     // const {apiName, apiEndpoint, apiActionType, apiHandler, apiResponse, apiSampleResponse, apiSampleRequest} = this.props;
 
-    const { classes } = this.props; 
-    var apiName = 'Auth';
-    var apiEndpoint = '/auth/signin';
-    var apiActionType = 'GET';
-    var sampleResponse = `{
-      "user": {
-          "id": 4,
-          "username": "joeadmin",
-          "email": "joeadmin@gmail.com",
-          "role": {
-              "id": 2,
-              "code": "ADMIN"
-          },
-          "createdAt": "2019-04-13",
-          "updatedAt": "2019-04-13",
-          "telephone": "123",
-          "address1": "addr1",
-          "address2": "addr2",
-          "firstname": "joe",
-          "lastname": "zhou",
-          "gender": "m",
-          "admin": false
-      },
-      "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2VhZG1pbiIsInJvbGVzIjpbXSwiaWF0IjoxNTU2MTU1ODY2fQ.Us6CGAx1WdwNnb8wxCy3-qtFs4gSK2bV1uA2Rm2MupI",
-      "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2VhZG1pbi5yZWZyZXNoLnRva2VuIiwicm9sZXMiOltdLCJpYXQiOjE1NTYxNTU4NjZ9.b71qsuHEX6XN5BSwFDyCYQcG3fgIJ-8FV2QiwL_xRnk"
-  }`;
+    const { apiData, classes } = this.props; 
+    var apiName = apiData.name;
+    var apiEndpoint = apiData.endPoint;
+    var apiActionType = apiData.actionType;
+    var sampleResponse = apiData.response;
+    var headers = apiData.header;
 
     return (
       <div>
@@ -116,14 +96,17 @@ class ApiBaseComponent extends Component {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                      <TableRow>
+                    {
+                      headers.map((header, index) =>                      
+                      <TableRow key={index}>
                         <TableCell component="th" scope="row">
-                          Authorization
+                          {header.name}
                         </TableCell>
                         <TableCell align="right">
-                          Basic am9lYWRtaW46OTk5OTk5OTk=
+                          {header.value}
                         </TableCell>
-                      </TableRow>
+                      </TableRow>)
+                    }
                   </TableBody>
                 </Table>
                 <Typography variant="caption">

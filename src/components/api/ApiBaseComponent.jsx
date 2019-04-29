@@ -30,6 +30,10 @@ const styles = theme => ({
     color: 'white'
   },
   container: {
+    padding: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit * 4
+  },
+  pageContainer: {
     padding: theme.spacing.unit * 2
   },
   apiName: {
@@ -66,7 +70,14 @@ class ApiBaseComponent extends Component {
     var apiEndpoint = apiData.endPoint;
     var apiActionType = apiData.actionType;
     var sampleResponse = apiData.response;
-    var headers = apiData.header;
+
+    const defaultHeader = [
+      {
+        name: "Authorization",
+        value: "Basic am9lYWRtaW46OTk5OTk5OTk="
+      }
+    ];
+    var headers = apiData.header == undefined ? defaultHeader : apiData.header;
 
     return (
       <div>
@@ -79,7 +90,7 @@ class ApiBaseComponent extends Component {
             <Chip label={apiEndpoint} className={classes.baseChip} />
           </Typography>
           <Divider className={classes.divider}></Divider>
-          <div className={classes.container}>
+          <div className={classes.pageContainer}>
             <Typography variant="body2">
               Sample Request
             </Typography>
@@ -120,7 +131,7 @@ class ApiBaseComponent extends Component {
             </Paper>
           </div>
 
-          <div className={classes.container}>
+          <div className={classes.pageContainer}>
             <Typography variant="body2">
               Sample Response
             </Typography>

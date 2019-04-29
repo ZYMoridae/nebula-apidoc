@@ -18,10 +18,14 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Footer from './Footer';
 
-import ApiBaseComponent from './api/ApiBaseComponent';
 import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
+
+
+
+// API Component
 import Auth from './api/auth/Auth';
+import Shipper from './api/shipper/Shipper';
 
 const drawerWidth = 240;
 
@@ -59,12 +63,10 @@ const styles = theme => ({
     width: '100%'
   },
   menuItem: {
-    '&:focus': {
-      backgroundColor: theme.palette.primary.main,
-      '& $primary, & $icon': {
-        color: theme.palette.common.white,
-      },
-    },
+  },
+  selected: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white
   },
   primary: {},
   icon: {}
@@ -75,6 +77,7 @@ class Home extends React.Component {
     super();
     this.state = {
       mobileOpen: false,
+      componentIndex: 0
     };
   }
 
@@ -85,25 +88,28 @@ class Home extends React.Component {
       this.setState(state => ({ mobileOpen: !state.mobileOpen }));
     };
 
+    const handleClick = (index) => {
+      this.setState(state => ({componentIndex: index}));
+    };
+
+    const componentNames = ["Auth", "Shipper", "Product Category", "Product"];
+
+
     const drawer = (
       <div>
         <div className={classes.toolbar} />
         <Divider />
-        <MenuList>
-          <MenuItem className={classes.menuItem}>
-            <ListItemText classes={{ primary: classes.primary }}  primary="Auth" />
-          </MenuItem>
-          <MenuItem className={classes.menuItem}>
-            <ListItemText classes={{ primary: classes.primary }}  primary="Product Category" />
-          </MenuItem>
-          <MenuItem className={classes.menuItem}>
-            <ListItemText classes={{ primary: classes.primary }}  primary="Product" />
-          </MenuItem>
+        <MenuList selectedMenuItemStyle={{      backgroundColor: '#ff5000',
+      color: 'white'}}>
+          {
+            componentNames.map((componentName, index) =>           
+              <MenuItem onClick={()=>{handleClick(index)}} selected={this.state.componentIndex == index}>
+                <ListItemText classes={{ primary: classes.primary }}  primary={componentName} />
+              </MenuItem>
+            )
+          }
           <Divider />
         </MenuList>
-
-
-        
         <List>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
             <ListItem button key={text}>
@@ -161,14 +167,16 @@ class Home extends React.Component {
             </Drawer>
           </Hidden>
         </nav>
-        <main className={classes.mainContainer}>
-          <div className={classes.content}>
-            <div className={classes.toolbar} />
-            <Auth></Auth>
-          </div>
+        
+          <main className={classes.mainContainer}>
+            <div className={classes.content}>
+              <div className={classes.toolbar} />
+              {this.state.componentIndex == 0 && <Auth></Auth>}
+              {this.state.componentIndex == 1 && <Shipper></Shipper>}
+            </div>
 
-          <Footer></Footer>
-        </main>
+            <Footer></Footer>
+          </main>
         
       </div>
     );

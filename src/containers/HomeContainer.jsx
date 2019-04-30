@@ -1,9 +1,6 @@
-import { connect } from 'react-redux';
-import { 
-  fetchAuthInfo,
-  hideLoginError
-} from '../actions';
-import Home from '../components/Home';
+import { connect } from "react-redux";
+import { fetchAuthInfo, hideLoginError } from "../actions";
+import Home from "../components/Home";
 
 const mapStateToProps = state => {
   return {
@@ -11,20 +8,20 @@ const mapStateToProps = state => {
     isFetchingAuth: state.LoginReducer.isFetchingAuth,
     isFetchedAuth: state.LoginReducer.isFetchedAuth,
     isShowLoginError: state.LoginReducer.isShowLoginError
-  }
-}
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
     dispatch,
-    fetchAuthInfo: (data) => {
+    fetchAuthInfo: data => {
       dispatch(fetchAuthInfo(data));
     },
     hideLoginError: () => {
       dispatch(hideLoginError());
     }
-  }
-}
+  };
+};
 
 const HomeContainer = connect(
   mapStateToProps,

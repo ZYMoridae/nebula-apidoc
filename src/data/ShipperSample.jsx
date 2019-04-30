@@ -17,6 +17,23 @@ var SampleJson = {
       name: "Get Shippers",
       endPoint: "/shippers?page=0&size=2&sort=contact",
       actionType: "GET",
+      requestParameter: [
+        {
+          key: "page",
+          type: "Integer",
+          optional: "N/A"
+        },
+        {
+          key: "size",
+          type: "Integer",
+          optional: "N/A"
+        },
+        {
+          key: "sort",
+          type: "String",
+          optional: ["contract"]
+        }
+      ],
       request: ``,
       response: `
       {
@@ -72,8 +89,15 @@ var SampleJson = {
         "name": "Test Shipper",
         "contact": "8976556456"
       } `
-    },    
+    },
+    {
+      name: "Delete Shipper",
+      endPoint: "/shippers/:id",
+      actionType: "DELETE",
+      request: "",
+      response: ""
+    }
   ]
-}
+};
 
 export default SampleJson;

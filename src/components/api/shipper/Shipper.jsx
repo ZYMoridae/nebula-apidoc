@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
-import ApiBaseComponent from '../ApiBaseComponent';
-import ApiSample from '../../../data/ShipperSample';
-import Fade from '@material-ui/core/Fade';
+import React, { Component } from "react";
+import ApiBaseComponent from "../ApiBaseComponent";
+import ApiSample from "../../../data/ShipperSample";
+import Fade from "@material-ui/core/Fade";
 
 class Shipper extends Component {
   render() {
     let shipperData = ApiSample.shipper;
     return (
       <div>
-        <Fade in={true} timeout={1200} >
+        <Fade in={true} timeout={1200}>
           <div>
-            {shipperData.map((item, index)=>
-              <ApiBaseComponent apiData={item}></ApiBaseComponent>
-            )}
+            {shipperData.map((item, index) => (
+              <ApiBaseComponent key={index} apiData={item} />
+            ))}
           </div>
         </Fade>
       </div>
-    )
+    );
   }
 }
 

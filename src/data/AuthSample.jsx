@@ -35,8 +35,25 @@ var SampleJson = {
           value: "Basic am9lYWRtaW46OTk5OTk5OTk="
         }
       ]
+    },
+    {
+      name: "Refresh Token",
+      endPoint: "/token/refresh",
+      actionType: "POST",
+      requestParameter: [
+        {
+          key: "refreshToken",
+          type: "String",
+          optional: "N/A"
+        }
+      ],
+      response: `
+      {
+        "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2U4ODgiLCJyb2xlcyI6W10sImlhdCI6MTU1NjU4NzU2OX0.6FUPG9auallzToTAPc5ZxziMNUpWu3qwHCURFY6ucsI",
+        "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2U4ODgucmVmcmVzaC50b2tlbiIsInJvbGVzIjpbXSwiaWF0IjoxNTU2NTg3NTY5fQ.FZ9peLlh8bUJ6hd_Fbe6pRK06WOI4nZS47Yq9cA1TXc"
+      }`
     }
   ]
-}
+};
 
 export default SampleJson;

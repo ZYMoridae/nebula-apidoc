@@ -34,7 +34,7 @@ var config = {
         use: [{ loader: "style-loader" }, { loader: "css-loader" }]
       },
       {
-        test: /\.(jpg|png)$/,
+        test: /\.(png|jpg|gif|svg)$/i,
         use: {
           loader: "url-loader",
           options: {

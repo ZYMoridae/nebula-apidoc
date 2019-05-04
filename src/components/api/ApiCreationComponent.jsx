@@ -1,36 +1,14 @@
 import React from "react";
 import ReactDOM from 'react-dom';
-import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Divider from "@material-ui/core/Divider";
-import Drawer from "@material-ui/core/Drawer";
-import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import MailIcon from "@material-ui/icons/Mail";
-import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import Footer from "../Footer";
 
-
 import Button from "@material-ui/core/Button";
-import SendIcon from "@material-ui/icons/SendRounded";
-
-import MenuList from "@material-ui/core/MenuList";
-import MenuItem from "@material-ui/core/MenuItem";
-
-// API Component
-import Auth from "../api/auth/Auth";
-import Shipper from "../api/shipper/Shipper";
-import User from "../api/user/User";
-
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -39,9 +17,10 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 
 import AddCircleOutline from '@material-ui/icons/AddCircleOutline';
 import RemoveCircleOutline from '@material-ui/icons/RemoveCircleOutline';
-import Fab from '@material-ui/core/Fab';
+import InfoRounded from '@material-ui/icons/InfoRounded';
 import Fade from "@material-ui/core/Fade";
 import Tooltip from '@material-ui/core/Tooltip';
+import NebulaIcon from '../NebulaIcon';
 
 const styles = theme => ({
   root: {
@@ -91,13 +70,22 @@ const styles = theme => ({
   },
   addIcon: {
     margin: '8px'
+  },
+  apiDocInfo: {
+    color: '#3d3d3d',
+    fontSize: '15px',
+    verticalAlign: 'top'
+  },
+  nebulaIcon: {
+    height: '55px',
+    marginRight: theme.spacing.unit
   }
 });
 
 const actionTypes = ['GET', 'POST', 'PUT', 'DELETE'];
 
 const ApiActionSelect = (props) => {
-  const { handleChange, labelWidth, apiActionIndex, setInputRef, classes } = props;
+  const { handleChange, labelWidth, apiActionIndex, setInputRef, classes, hasError} = props;
   return (
     <FormControl variant="outlined" className={classes.formControl}>
       <InputLabel
@@ -107,6 +95,7 @@ const ApiActionSelect = (props) => {
         Action
       </InputLabel>
       <Select
+        error={hasError}
         native
         value={apiActionIndex}
         onChange={handleChange('apiActionIndex')}
@@ -135,9 +124,8 @@ const ApiActionSelect = (props) => {
   )
 }
 
-
 const ApiCategorySelect = (props) => {
-  const { apiCategories, handleChange, labelWidth, apiCategoryIndex, setInputRef, classes } = props;
+  const { apiCategories, handleChange, labelWidth, apiCategoryIndex, setInputRef, classes, hasError } = props;
   return (
     <FormControl variant="outlined" className={classes.formControl}>
       <InputLabel
@@ -147,6 +135,7 @@ const ApiCategorySelect = (props) => {
         Category
       </InputLabel>
       <Select
+        error={hasError}
         native
         value={apiCategoryIndex}
         onChange={handleChange('apiCategoryIndex')}
@@ -175,8 +164,83 @@ const ApiCategorySelect = (props) => {
   )
 }
 
-class ApiCreationComponent extends React.Component {
+const ApiDocTooltipText = "The category, action type and name is required for each of api. Headers, request and response are optional fields. However for most of api the auth header is required."
 
+
+const ApiHeaderComponent = (props) => {
+  const { headers, handleHeaderChange, handleRemoveHeaderClick, handleAddHeaderClick, classes } = props;
+  return (
+    <div>
+      <FormControl className={classes.formControl}>
+        <Typography variant="caption" color="primary" noWrap>
+          Headers
+        </Typography>
+      </FormControl>
+      {
+        headers && headers.map((header, index) =>
+          <Fade in={true} timeout={1200} key={index}>
+            <div >
+              <FormControl className={classes.formControl}>
+                <TextField
+                  id="standard-response"
+                  label={`Header`}
+                  // className={classes.requestTextField}
+                  value={headers[index].name}
+                  onChange={handleHeaderChange('name', index)}
+                  variant="outlined"
+                />
+              </FormControl>
+              <FormControl className={classes.formControl}>
+                <TextField
+                  id="standard-response"
+                  label={`Value`}
+                  // className={classes.requestTextField}
+                  value={headers[index].value}
+                  onChange={handleHeaderChange('value', index)}
+                  variant="outlined"
+                />
+              </FormControl>
+              {(index != 0 || (index == 0 && headers.length > 1)) &&
+                <FormControl>
+                  <Tooltip title="Delete" TransitionComponent={Fade} TransitionProps={{ timeout: 600 }}>
+                    <IconButton
+                      onClick={() => { handleRemoveHeaderClick(index) }}
+                      className={classes.addIcon}
+                    >
+                      <RemoveCircleOutline />
+                    </IconButton>
+                  </Tooltip>
+                </FormControl>
+              }
+              {index == headers.length - 1 &&
+                <FormControl>
+                  <Tooltip title="Add" aria-label="Add" TransitionComponent={Fade} TransitionProps={{ timeout: 600 }}>
+                    <IconButton
+                      onClick={handleAddHeaderClick}
+                      color="primary"
+                      className={classes.addIcon}
+                    >
+                      <AddCircleOutline />
+                    </IconButton>
+                  </Tooltip>
+                </FormControl>
+              }
+            </div>
+          </Fade>
+        )
+      }
+    </div>
+  )
+}
+
+/**
+ * ApiCreationComponent
+ * 
+ * @class ApiCreationComponent
+ * @extends {React.Component}
+ */
+class ApiCreationComponent extends React.Component {
+  
   initState() {
     this.state = {
       labelWidth: [],
@@ -185,7 +249,8 @@ class ApiCreationComponent extends React.Component {
         name: '',
         value: ''
       }],
-      apiActionIndex: -1
+      apiActionIndex: -1,
+      validationError: []
     };
   }
 
@@ -200,9 +265,16 @@ class ApiCreationComponent extends React.Component {
       })
     };
 
+    this.handleHeaderChange = (name, index) => event => {
+      let headers = this.state.headers;
+      headers[index][`${name}`] = event.target.value;
+      this.setState({
+        headers: headers
+      });
+    };
+
     this.inputLabelRef = new Map();
 
-    
     this.handleAddHeaderClick = () => {
       let headers = this.state.headers;
       headers.push({
@@ -217,8 +289,6 @@ class ApiCreationComponent extends React.Component {
       headers = headers.filter((header, index1) => index != index1);
       this.setState({ headers: headers });
     };
-
-
   }
 
   componentDidMount() {
@@ -236,11 +306,6 @@ class ApiCreationComponent extends React.Component {
     }
   }
 
-  // componentDidUpdate() {
-  //   const { fetchApiCategoryInfo } = this.props;
-  //   fetchApiCategoryInfo();
-  // }
-
   render() {
     const { classes, info, createApi } = this.props;
 
@@ -251,17 +316,54 @@ class ApiCreationComponent extends React.Component {
       this.inputLabelRef.set(name, ref);
     };
 
+    const validateApiData = (data) => {
+      let validationError = this.state.validationError;
+      let isValid = true;
+      // Validate action type
+      console.log(data.actionType); 
+      if(data.actionType == undefined 
+          || !data.actionType 
+          || !actionTypes.includes(data.actionType)
+      ) {
+        validationError['actionType'] = 'Action type can not be none.';
+        isValid = false;
+      }else {
+        validationError['actionType'] = null;
+      }
+
+      if(!data.apiCategoryId || apiCategories[data.apiCategoryId - 1] == undefined) {
+        validationError['apiCategory'] = 'Api category can not be none.';
+        isValid = false;
+      }else {
+        validationError['apiCategory'] = null;
+      }
+
+      if(!data.name || data.name == '') {
+        validationError['apiName'] = 'Api name cannot be empty.';
+        isValid = false;
+      }else {
+        validationError['apiName'] = null;
+      }
+
+      this.setState({
+        validationError: validationError
+      });
+
+      return isValid;
+    };
+
     const submitClickHandler = () => {
       let apiInfoHeaders = [];
       this.state.headers.forEach((header, index) => {
-        if(this.state[`headerName${index}`] != null && this.state[`valueName${index}`] != null) {
+        let headerName = this.state[`headerName${index}`],
+            headerValue = this.state[`valueName${index}`];
+        if (headerName != null && headerValue != null) {
           apiInfoHeaders.push({
-            name: this.state[`headerName${index}`],
-            value: this.state[`valueName${index}`].split(',')
+            name: headerName,
+            value: headerValue.split(',')
           })
         }
       });
-
 
       let data = {
         "actionType": actionTypes[this.state.apiActionIndex],
@@ -272,7 +374,9 @@ class ApiCreationComponent extends React.Component {
         "response": this.state.response
       };
 
-      createApi(data);
+      if(validateApiData(data)) {
+        createApi(data);
+      }      
     };
 
     return (
@@ -280,6 +384,7 @@ class ApiCreationComponent extends React.Component {
         <CssBaseline />
         <AppBar position="static" className={classes.appBar}>
           <Toolbar>
+            <NebulaIcon />
             <Typography variant="h6" color="inherit" noWrap>
               Nebula API Doc
             </Typography>
@@ -291,12 +396,16 @@ class ApiCreationComponent extends React.Component {
 
             <FormControl className={classes.formControl}>
               <Typography variant="h6" color="inherit" noWrap className={classes.newApiSpan}>
-                New API
+                Create API Doc
+                <Tooltip title={ApiDocTooltipText} TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} placement="right">
+                  <InfoRounded className={classes.apiDocInfo}/>
+                </Tooltip>
               </Typography>
             </FormControl>
 
             <div>
               <ApiCategorySelect
+                hasError={this.state.validationError['apiCategory'] != null}
                 apiCategories={apiCategories}
                 handleChange={this.handleChange}
                 labelWidth={this.state.labelWidth['apiCategory']}
@@ -307,6 +416,7 @@ class ApiCreationComponent extends React.Component {
               </ApiCategorySelect>
 
               <ApiActionSelect
+                hasError={this.state.validationError['actionType'] != null}
                 handleChange={this.handleChange}
                 labelWidth={this.state.labelWidth['apiAction']}
                 setInputRef={setInputRef}
@@ -317,6 +427,7 @@ class ApiCreationComponent extends React.Component {
 
               <FormControl variant="outlined" className={classes.formControl}>
                 <TextField
+                  error={this.state.validationError['apiName'] != null}
                   id="standard-name"
                   label="Name"
                   className={classes.textField}
@@ -325,6 +436,15 @@ class ApiCreationComponent extends React.Component {
                   variant="outlined"
                 />
               </FormControl>
+
+              <ApiHeaderComponent
+                headers={this.state.headers}
+                handleHeaderChange={this.handleHeaderChange}
+                handleRemoveHeaderClick={this.handleRemoveHeaderClick}
+                handleAddHeaderClick={this.handleAddHeaderClick}
+                classes={classes}
+              >
+              </ApiHeaderComponent>
 
               <div className={classes.requestTextField}>
                 <FormControl variant="outlined" className={classes.requestFieldFormControl}>
@@ -354,70 +474,7 @@ class ApiCreationComponent extends React.Component {
                 </FormControl>
               </div>
 
-              <FormControl className={classes.formControl}>
-                <Typography variant="caption" color="primary" noWrap>
-                  Headers
-                </Typography>
-              </FormControl>
 
-              <div>
-                {
-                  this.state.headers && this.state.headers.map((header, index) =>
-                    <Fade in={true} timeout={1200} key={index}>
-                      <div >
-                        <FormControl className={classes.formControl}>
-                          <TextField
-                            id="standard-response"
-                            label={`Header`}
-                            // className={classes.requestTextField}
-                            value={this.state[`headerName${index}`]}
-                            onChange={this.handleChange(`headerName${index}`)}
-                            variant="outlined"
-                          />
-                        </FormControl>
-                        <FormControl className={classes.formControl}>
-                          <TextField
-                            id="standard-response"
-                            label={`Value`}
-                            // className={classes.requestTextField}
-                            value={this.state[`valueName${index}`]}
-                            onChange={this.handleChange(`valueName${index}`)}
-                            variant="outlined"
-                          />
-                        </FormControl>
-                        {index != 0 &&
-                          <FormControl>
-                            <Tooltip title="Delete">
-                              <IconButton
-                                onClick={() => { this.handleRemoveHeaderClick(index) }}
-                                className={classes.addIcon}
-                              >
-                                <RemoveCircleOutline />
-                              </IconButton>
-                            </Tooltip>
-                          </FormControl>
-
-                        }
-                        {index == this.state.headers.length - 1 &&
-
-                          <FormControl>
-                            <Tooltip title="Add" aria-label="Add">
-                              <IconButton
-                                onClick={this.handleAddHeaderClick}
-                                color="primary"
-                                className={classes.addIcon}
-                              >
-                                <AddCircleOutline />
-                              </IconButton>
-                            </Tooltip>
-                          </FormControl>
-
-                        }
-
-                      </div>
-                    </Fade>)
-                }
-              </div>
 
               <div>
                 <FormControl className={classes.formControl}>

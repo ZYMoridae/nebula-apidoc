@@ -48,7 +48,7 @@ const apiCreationReducer = (state = initState, action) => {
         isApiCreationSuccess: action.isApiCreationSuccess,
         isApirCreationPending: action.isApirCreationPending,
         isShowError: action.isShowError,
-        info: action.info
+        apiInfo: action.info
       });
     default:
       return state;

@@ -27,6 +27,8 @@ import Shipper from "./api/shipper/Shipper";
 import User from "./api/user/User";
 
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import AddCircleOutline from '@material-ui/icons/AddCircleOutline';
+import NebulaIcon from './NebulaIcon';
 
 const drawerWidth = 240;
 
@@ -161,6 +163,7 @@ class Home extends React.Component {
             >
               <MenuIcon />
             </IconButton>
+            <NebulaIcon></NebulaIcon>
             <Typography variant="h6" color="inherit" noWrap>
               Nebula API Doc
             </Typography>
@@ -169,7 +172,7 @@ class Home extends React.Component {
                 onClick={handleNewApiClick}
                 color="inherit"
               >
-                <AccountCircle />
+                <AddCircleOutline />
             </IconButton>
             </div>
           </Toolbar>

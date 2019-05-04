@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import HeaderBarContainer from "../containers/HeaderBarContainer";
 import HomeContainer from "../containers/HomeContainer";
 import LoginContainer from "../containers/LoginContainer";
+import ApiCreationContainer from "../containers/ApiCreationContainer";
 
 import PrivateRoute from "../components/PrivateRoute";
 
@@ -41,6 +42,14 @@ const Login = () => (
   </div>
 );
 
+const ApiCreationContainerPage = () => (
+  <div>
+    <ApiCreationContainer />
+  </div>
+);
+
+
+
 class App extends React.Component {
   render() {
     return (
@@ -49,6 +58,7 @@ class App extends React.Component {
           <div>
             {/* <HeaderBarContainer></HeaderBarContainer> */}
             <PrivateRoute exact path="/" component={Home} />
+            <PrivateRoute exact path="/new" component={ApiCreationContainerPage} />
             <Route exact path="/login" component={Login} />
             {/* <Footer></Footer> */}
           </div>

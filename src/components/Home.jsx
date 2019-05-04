@@ -24,6 +24,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 // API Component
 import Auth from "./api/auth/Auth";
 import Shipper from "./api/shipper/Shipper";
+import User from "./api/user/User";
+
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const drawerWidth = 240;
 
@@ -66,7 +69,11 @@ const styles = theme => ({
     color: theme.palette.common.white
   },
   primary: {},
-  icon: {}
+  icon: {},
+  newApiBtn: {
+    position: 'fixed',
+    right: '0'
+  }
 });
 
 const componentInfos = [
@@ -77,6 +84,10 @@ const componentInfos = [
   {
     name: "Shipper",
     component: <Shipper />
+  },
+  {
+    name: "User",
+    component: <User />
   }
 ];
 
@@ -98,6 +109,10 @@ class Home extends React.Component {
 
     const handleClick = index => {
       this.setState(state => ({ componentIndex: index }));
+    };
+
+    const handleNewApiClick = () => {
+      location.href = '/new';
     };
 
     const drawer = (
@@ -149,6 +164,14 @@ class Home extends React.Component {
             <Typography variant="h6" color="inherit" noWrap>
               Nebula API Doc
             </Typography>
+            <div className={classes.newApiBtn}>
+            <IconButton
+                onClick={handleNewApiClick}
+                color="inherit"
+              >
+                <AccountCircle />
+            </IconButton>
+            </div>
           </Toolbar>
         </AppBar>
         <nav className={classes.drawer}>

@@ -4,6 +4,13 @@ import HeaderBarContainer from "../containers/HeaderBarContainer";
 import HomeContainer from "../containers/HomeContainer";
 import LoginContainer from "../containers/LoginContainer";
 import ApiCreationContainer from "../containers/ApiCreationContainer";
+import ApiCategoryCreationContainer from "../containers/ApiCategoryCreationContainer";
+
+import HomeManagement from "../components/management/HomeManagement";
+
+// For test
+import ApiManagement from "../components/management/ApiManagement";
+import ApiCategoryManagement from "../components/management/ApiCategoryManagement";
 
 import PrivateRoute from "../components/PrivateRoute";
 
@@ -48,6 +55,30 @@ const ApiCreationContainerPage = () => (
   </div>
 );
 
+const ApiCategoryCreationContainerPage = () => (
+  <div>
+    <ApiCategoryCreationContainer />
+  </div>
+);
+
+const HomeManagementPage = () => (
+  <div>
+    <HomeManagement />
+  </div>
+);
+
+
+const ApiManagementPage = () => (
+  <div>
+    <ApiManagement />
+  </div>
+);
+
+const ApiCategoryManagementPage = () => (
+  <div>
+    <ApiCategoryManagement />
+  </div>
+);
 
 
 class App extends React.Component {
@@ -58,7 +89,12 @@ class App extends React.Component {
           <div>
             {/* <HeaderBarContainer></HeaderBarContainer> */}
             <PrivateRoute exact path="/" component={Home} />
-            <PrivateRoute exact path="/new" component={ApiCreationContainerPage} />
+            
+            <PrivateRoute exact path="/management" component={HomeManagementPage} />
+            <PrivateRoute exact path="/management/api" component={ApiManagementPage} />
+            <PrivateRoute exact path="/management/api/new" component={ApiCreationContainerPage} />
+            <PrivateRoute exact path="/management/category" component={ApiCategoryManagementPage} />
+            <PrivateRoute exact path="/management/category/new" component={ApiCategoryCreationContainerPage} />
             <Route exact path="/login" component={Login} />
             {/* <Footer></Footer> */}
           </div>

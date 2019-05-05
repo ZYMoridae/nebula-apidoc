@@ -29,6 +29,7 @@ import User from "./api/user/User";
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AddCircleOutline from '@material-ui/icons/AddCircleOutline';
 import NebulaIcon from './NebulaIcon';
+import BuildRounded from '@material-ui/icons/BuildRounded';
 
 const drawerWidth = 240;
 
@@ -113,8 +114,12 @@ class Home extends React.Component {
       this.setState(state => ({ componentIndex: index }));
     };
 
-    const handleNewApiClick = () => {
-      location.href = '/new';
+    // const handleNewApiClick = () => {
+    //   location.href = '/new';
+    // };
+
+    const handleApiManagementClick = () => {
+      location.href = '/management';
     };
 
     const drawer = (
@@ -168,11 +173,17 @@ class Home extends React.Component {
               Nebula API Doc
             </Typography>
             <div className={classes.newApiBtn}>
-            <IconButton
+            {/* <IconButton
                 onClick={handleNewApiClick}
                 color="inherit"
               >
                 <AddCircleOutline />
+            </IconButton> */}
+            <IconButton
+                onClick={handleApiManagementClick}
+                color="inherit"
+              >
+                <BuildRounded />
             </IconButton>
             </div>
           </Toolbar>

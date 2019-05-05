@@ -1,5 +1,5 @@
 import React from "react";
-import CloudIcon from "./cloud.svg";
+import NebulaSvg from "./nebula.svg";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
@@ -16,7 +16,7 @@ class NebulaIcon extends React.Component {
     return(
       <span>
         <a href="/">
-          <img src={CloudIcon} alt="" className={classes.nebulaIcon}/>
+          <img src={NebulaSvg} alt="" className={classes.nebulaIcon}/>
         </a>
       </span>
     )

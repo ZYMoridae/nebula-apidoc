@@ -22,6 +22,8 @@ import Fade from "@material-ui/core/Fade";
 import Tooltip from '@material-ui/core/Tooltip';
 import NebulaIcon from '../NebulaIcon';
 
+import NebulaAppBar from '../NebulaAppBar';
+
 const styles = theme => ({
   root: {
 
@@ -382,14 +384,7 @@ class ApiCreationComponent extends React.Component {
     return (
       <div className={classes.root}>
         <CssBaseline />
-        <AppBar position="static" className={classes.appBar}>
-          <Toolbar>
-            <NebulaIcon />
-            <Typography variant="h6" color="inherit" noWrap>
-              Nebula API Doc
-            </Typography>
-          </Toolbar>
-        </AppBar>
+        <NebulaAppBar />
 
         <main className={classes.mainContainer}>
           <div className={classes.content}>

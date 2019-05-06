@@ -30,7 +30,8 @@ export const fetchingAuthError = err => {
     type: ActionType.AUTH_FAIL,
     isFetchingAuth: false,
     isFetchedAuth: true,
-    isShowLoginError: true
+    isShowLoginError: true,
+    error: err
   };
 };
 
@@ -57,7 +58,7 @@ export const fetchAuthInfo = data => {
         headers: headers
       },
       successCallback: response => {
-        console.log(response);
+        // console.log(response);
         // Set auth token
         sessionStorage.setItem("user", response.data);
         localStorage.setItem("token", response.data.token);

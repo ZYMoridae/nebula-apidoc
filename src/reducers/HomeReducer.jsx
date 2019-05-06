@@ -1,37 +1,55 @@
 import ActionType from "../actions/ActionType";
 
 let initState = {
-  isFetchingAuth: false,
-  isFetchedAuth: false,
-  isShowLoginError: false,
-  info: "null"
+  isFetchingApiCategory: false,
+  isFetchedApiCategory: false,
+  isFetchingApiInfos: false,
+  isFetchedApiInfos: false,
+  isShowError: false,
+  info: [],
+  apiInfos: []
 };
 
 const homeReducer = (state = initState, action) => {
   switch (action.type) {
-    case ActionType.AUTH_FAIL:
+    case ActionType.APICATEGORY_FAIL:
       return Object.assign({}, state, {
-        isFetchedAuth: action.isFetchedAuth,
-        isFetchingAuth: action.isFetchingAuth,
-        isShowLoginError: action.isShowLoginError
+        isFetchedApiCategory: action.isFetchedApiCategory,
+        isFetchingApiCategory: action.isFetchingApiCategory,
+        isShowError: action.isShowError
       });
-    case ActionType.AUTH_PENDING:
+    case ActionType.APICATEGORY_PENDING:
       return Object.assign({}, state, {
-        isFetchedAuth: action.isFetchedAuth,
-        isFetchingAuth: action.isFetchingAuth,
-        isShowLoginError: action.isShowLoginError
+        isFetchedApiCategory: action.isFetchedApiCategory,
+        isFetchingApiCategory: action.isFetchingApiCategory,
+        isShowError: action.isShowError
       });
-    case ActionType.AUTH_SUCCESS:
+    case ActionType.APICATEGORY_SUCCESS:
       return Object.assign({}, state, {
-        isFetchedAuth: action.isFetchedAuth,
-        isFetchingAuth: action.isFetchingAuth,
-        isShowLoginError: action.isShowLoginError,
-        info: action.info
+        isFetchedApiCategory: action.isFetchedApiCategory,
+        isFetchingApiCategory: action.isFetchingApiCategory,
+        isShowError: action.isShowError,
+        info: action.info.content
       });
-    case ActionType.HIDE_ERROR:
+    case ActionType.APIINFOS_FAIL:
       return Object.assign({}, state, {
-        isShowLoginError: action.isShowLoginError
+        isFetchedApiInfos: action.isFetchedApiInfos,
+        isFetchingApiInfos: action.isFetchingApiInfos,
+        isShowError: action.isShowError
       });
+    case ActionType.APIINFOS_PENDING:
+      return Object.assign({}, state, {
+        isFetchedApiInfos: action.isFetchedApiInfos,
+        isFetchingApiInfos: action.isFetchingApiInfos,
+        isShowError: action.isShowError
+      });
+    case ActionType.APIINFOS_SUCCESS:
+      return Object.assign({}, state, {
+        isFetchedApiInfos: action.isFetchedApiInfos,
+        isFetchingApiInfos: action.isFetchingApiInfos,
+        isShowError: action.isShowError,
+        apiInfos: action.apiInfos
+      });      
     default:
       return state;
   }

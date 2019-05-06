@@ -103,6 +103,7 @@ class Login extends Component {
   render() {
     const {
       isFetchedAuth,
+      isFetchingAuth,
       classes,
       info,
       hideLoginError,
@@ -197,6 +198,7 @@ class Login extends Component {
                 </Grid>
                 <Grid item xs={12}>
                   <Button
+                    disabled={isFetchingAuth}
                     variant="contained"
                     color="primary"
                     size="large"

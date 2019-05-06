@@ -1,24 +1,27 @@
 import { connect } from "react-redux";
-import { fetchAuthInfo, hideLoginError } from "../actions";
+import { fetchApiCategoryInfo, fetchApiInfosInfo } from "../actions";
 import Home from "../components/Home";
 
 const mapStateToProps = state => {
   return {
-    info: state.LoginReducer.info,
-    isFetchingAuth: state.LoginReducer.isFetchingAuth,
-    isFetchedAuth: state.LoginReducer.isFetchedAuth,
-    isShowLoginError: state.LoginReducer.isShowLoginError
+    info: state.HomeReducer.info,
+    isFetchingApiCategory: state.HomeReducer.isFetchingApiCategory,
+    isFetchedApiCategory: state.HomeReducer.isFetchedApiCategory,
+    isFetchingApiInfos: state.HomeReducer.isFetchingApiInfos,
+    isFetchedApiInfos: state.HomeReducer.isFetchedApiInfos,
+    isShowError: state.HomeReducer.isShowError,
+    apiInfos: state.HomeReducer.apiInfos
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     dispatch,
-    fetchAuthInfo: data => {
-      dispatch(fetchAuthInfo(data));
+    fetchApiCategoryInfo: () => {
+      dispatch(fetchApiCategoryInfo());
     },
-    hideLoginError: () => {
-      dispatch(hideLoginError());
+    fetchApiInfosInfo: (categoryName) => {
+      dispatch(fetchApiInfosInfo(categoryName));
     }
   };
 };

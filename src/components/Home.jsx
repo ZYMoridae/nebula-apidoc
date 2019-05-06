@@ -31,6 +31,8 @@ import AddCircleOutline from '@material-ui/icons/AddCircleOutline';
 import NebulaIcon from './NebulaIcon';
 import BuildRounded from '@material-ui/icons/BuildRounded';
 
+import CommonApiComponent from './api/CommonApiComponent';
+
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -76,23 +78,36 @@ const styles = theme => ({
   newApiBtn: {
     position: 'fixed',
     right: '0'
+  },
+  homeName: {
+    paddingLeft: theme.spacing.unit
   }
 });
 
-const componentInfos = [
-  {
-    name: "Auth",
-    component: <Auth />
-  },
-  {
-    name: "Shipper",
-    component: <Shipper />
-  },
-  {
-    name: "User",
-    component: <User />
-  }
-];
+// const componentInfos = [
+//   {
+//     name: "Auth",
+//     component: <Auth />
+//   },
+//   {
+//     name: "Shipper",
+//     component: <Shipper />
+//   },
+//   {
+//     name: "User",
+//     component: <User />
+//   }
+// ];
+
+const renderHome = (classes) => {
+  return(
+    <div>
+      <Typography variant="h5" className={classes.homeName}>
+        Home
+      </Typography>
+    </div>
+  );
+}
 
 class Home extends React.Component {
   constructor() {
@@ -103,20 +118,43 @@ class Home extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { fetchApiCategoryInfo } = this.props;
+    fetchApiCategoryInfo();
+  }
+
   render() {
-    const { classes, theme } = this.props;
+    const { info, classes, theme, apiInfos, fetchApiInfosInfo} = this.props;
 
     const handleDrawerToggle = () => {
       this.setState(state => ({ mobileOpen: !state.mobileOpen }));
     };
 
     const handleClick = index => {
+ 
       this.setState(state => ({ componentIndex: index }));
+      if(index > 0) {
+        fetchApiInfosInfo(info[index - 1].name);
+      }
+
     };
 
-    // const handleNewApiClick = () => {
-    //   location.href = '/new';
-    // };
+    let componentInfos = [];
+    componentInfos.push({
+      name: 'Home',
+      component: renderHome(classes)
+    });
+
+    info.forEach((category, index) => {
+      let component = {
+        name: category.name,
+        component: ""
+      }
+      if(index == this.state.componentIndex - 1 && Array.isArray(apiInfos)) {
+        component.component = <CommonApiComponent apiData={apiInfos}/>
+      }
+      componentInfos.push(component);
+    });
 
     const handleApiManagementClick = () => {
       location.href = '/management';
@@ -218,10 +256,7 @@ class Home extends React.Component {
         <main className={classes.mainContainer}>
           <div className={classes.content}>
             <div className={classes.toolbar} />
-            {componentInfos.map(
-              (componentInfo, index) =>
-                this.state.componentIndex == index && componentInfo.component
-            )}
+            {componentInfos[this.state.componentIndex] && componentInfos[this.state.componentIndex].component}   
           </div>
           <Footer />
         </main>

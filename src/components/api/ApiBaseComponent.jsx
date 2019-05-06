@@ -99,7 +99,7 @@ const renderRequestParameter = (requestParameters, classes) => {
         <TableHead>
           <TableRow>
             <TableCell>Request Parameter Name</TableCell>
-            <TableCell align="right">Type</TableCell>
+            {/* <TableCell align="right">Type</TableCell> */}
             <TableCell align="right">Optional</TableCell>
           </TableRow>
         </TableHead>
@@ -107,13 +107,13 @@ const renderRequestParameter = (requestParameters, classes) => {
           {requestParameters.map((requestParameter, index) => (
             <TableRow key={index}>
               <TableCell component="th" scope="row">
-                {requestParameter.key}
+                {requestParameter.name}
               </TableCell>
-              <TableCell align="right">{requestParameter.type}</TableCell>
+              {/* <TableCell align="right">{requestParameter.type}</TableCell> */}
               <TableCell align="right">
-                {Array.isArray(requestParameter.optional) ? (
+                {Array.isArray(requestParameter.value) ? (
                   <div>
-                    {requestParameter.optional.map((optionalItem, index2) => (
+                    {requestParameter.value.map((optionalItem, index2) => (
                       <Chip
                         key={index2}
                         label={optionalItem}
@@ -142,8 +142,8 @@ class ApiBaseComponent extends Component {
     var apiActionType = apiData.actionType.toUpperCase();
     var sampleResponse = apiData.response || "";
     var sampleRequest = apiData.request || "";
-    var requestParameter = apiData.requestParameter
-      ? apiData.requestParameter
+    var requestParameter = apiData.apiInfoHeaders
+      ? apiData.apiInfoHeaders
       : [];
 
     // Default ship class is 'getChip'

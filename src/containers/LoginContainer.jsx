@@ -7,7 +7,8 @@ const mapStateToProps = state => {
     info: state.LoginReducer.info,
     isFetchingAuth: state.LoginReducer.isFetchingAuth,
     isFetchedAuth: state.LoginReducer.isFetchedAuth,
-    isShowLoginError: state.LoginReducer.isShowLoginError
+    isShowLoginError: state.LoginReducer.isShowLoginError,
+    error: state.LoginReducer.error
   };
 };
 

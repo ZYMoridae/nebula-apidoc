@@ -4,7 +4,8 @@ let initState = {
   isFetchingAuth: false,
   isFetchedAuth: false,
   isShowLoginError: false,
-  info: "null"
+  info: "null",
+  error: null
 };
 
 const loginReducer = (state = initState, action) => {
@@ -13,7 +14,8 @@ const loginReducer = (state = initState, action) => {
       return Object.assign({}, state, {
         isFetchedAuth: action.isFetchedAuth,
         isFetchingAuth: action.isFetchingAuth,
-        isShowLoginError: action.isShowLoginError
+        isShowLoginError: action.isShowLoginError,
+        error: action.error
       });
     case ActionType.AUTH_PENDING:
       return Object.assign({}, state, {

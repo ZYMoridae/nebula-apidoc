@@ -322,7 +322,6 @@ class ApiCreationComponent extends React.Component {
       let validationError = this.state.validationError;
       let isValid = true;
       // Validate action type
-      console.log(data.actionType); 
       if(data.actionType == undefined 
           || !data.actionType 
           || !actionTypes.includes(data.actionType)
@@ -333,7 +332,7 @@ class ApiCreationComponent extends React.Component {
         validationError['actionType'] = null;
       }
 
-      if(!data.apiCategoryId || apiCategories[data.apiCategoryId - 1] == undefined) {
+      if(!data.apiCategoryId || data.apiCategoryId == undefined) {
         validationError['apiCategory'] = 'Api category can not be none.';
         isValid = false;
       }else {
@@ -347,6 +346,13 @@ class ApiCreationComponent extends React.Component {
         validationError['apiName'] = null;
       }
 
+      if(!data.name || data.name == '') {
+        validationError['apiEndpoint'] = 'Api Endpoint cannot be empty.';
+        isValid = false;
+      }else {
+        validationError['apiEndpoint'] = null;
+      }
+
       this.setState({
         validationError: validationError
       });
@@ -357,8 +363,8 @@ class ApiCreationComponent extends React.Component {
     const submitClickHandler = () => {
       let apiInfoHeaders = [];
       this.state.headers.forEach((header, index) => {
-        let headerName = this.state[`headerName${index}`],
-            headerValue = this.state[`valueName${index}`];
+        let headerName = header.name,
+            headerValue = header.value;
         if (headerName != null && headerValue != null) {
           apiInfoHeaders.push({
             name: headerName,
@@ -369,9 +375,10 @@ class ApiCreationComponent extends React.Component {
 
       let data = {
         "actionType": actionTypes[this.state.apiActionIndex],
-        "apiCategoryId": parseInt(this.state.apiCategoryIndex, 10) + 1,
+        "apiCategoryId": apiCategories[this.state.apiCategoryIndex].id,
         "apiInfoHeaders": apiInfoHeaders,
         "name": this.state.name,
+        "endPoint": this.state.endPoint,
         "request": this.state.request,
         "response": this.state.response
       };
@@ -428,6 +435,18 @@ class ApiCreationComponent extends React.Component {
                   className={classes.textField}
                   value={this.state.name}
                   onChange={this.handleChange('name')}
+                  variant="outlined"
+                />
+              </FormControl>
+
+              <FormControl variant="outlined" className={classes.formControl}>
+                <TextField
+                  error={this.state.validationError['apiEndpoint'] != null}
+                  id="standard-name"
+                  label="Endpoint"
+                  className={classes.textField}
+                  value={this.state.endPoint}
+                  onChange={this.handleChange('endPoint')}
                   variant="outlined"
                 />
               </FormControl>

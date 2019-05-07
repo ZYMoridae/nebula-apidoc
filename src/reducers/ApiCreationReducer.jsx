@@ -7,7 +7,9 @@ let initState = {
   isApiCreationSuccess: false,
   isApirCreationPending: false,
   apiInfo: null,
-  info: "null"
+  info: "null",
+  isShowErrorSnackBar: false,
+  isShowSuccessSnackBar: false
 };
 
 const apiCreationReducer = (state = initState, action) => {
@@ -35,7 +37,8 @@ const apiCreationReducer = (state = initState, action) => {
       return Object.assign({}, state, {
         isApiCreationSuccess: action.isApiCreationSuccess,
         isApirCreationPending: action.isApirCreationPending,
-        isShowError: action.isShowError
+        isShowError: action.isShowError,
+        isShowErrorSnackBar: true
       });
     case ActionType.APICREATION_PENDING:
       return Object.assign({}, state, {
@@ -48,8 +51,17 @@ const apiCreationReducer = (state = initState, action) => {
         isApiCreationSuccess: action.isApiCreationSuccess,
         isApirCreationPending: action.isApirCreationPending,
         isShowError: action.isShowError,
-        apiInfo: action.info
+        apiInfo: action.info,
+        isShowSuccessSnackBar: true
       });
+    case ActionType.HIDE_ERROR_SNACKBAR:
+      return Object.assign({}, state, {
+        isShowErrorSnackBar: false
+      });
+    case ActionType.HIDE_SUCCESS_SNACKBAR:
+      return Object.assign({}, state, {
+        isShowSuccessSnackBar: false
+      });  
     default:
       return state;
   }

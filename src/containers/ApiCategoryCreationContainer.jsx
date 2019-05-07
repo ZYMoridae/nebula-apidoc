@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { createApiCategory } from "../actions";
+import { createApiCategory, hideErrorSnackbar, hideSuccessSnackbar } from "../actions";
 import ApiCategoryCreationComponent from "../components/api/ApiCategoryCreationComponent";
 
 const mapStateToProps = state => {
@@ -8,7 +8,9 @@ const mapStateToProps = state => {
     isApiCategoryCreationSuccess: state.ApiCategoryCreationReducer.isApiCategoryCreationSuccess,
     isApiCategoryCreationPending: state.ApiCategoryCreationReducer.isApiCategoryCreationPending,
     apiCategoryInfo: state.ApiCategoryCreationReducer.apiCategoryInfo,
-    error: state.ApiCategoryCreationReducer.error
+    error: state.ApiCategoryCreationReducer.error,
+    isShowErrorSnackBar: state.ApiCategoryCreationReducer.isShowErrorSnackBar,
+    isShowSuccessSnackBar: state.ApiCategoryCreationReducer.isShowSuccessSnackBar
   };
 };
 
@@ -17,6 +19,12 @@ const mapDispatchToProps = dispatch => {
     dispatch,
     createApiCategory: (data) => {
       dispatch(createApiCategory(data));
+    },
+    hideErrorSnackbar: () => {
+      dispatch(hideErrorSnackbar());
+    },
+    hideSuccessSnackbar: () => {
+      dispatch(hideSuccessSnackbar());
     }
   };
 };

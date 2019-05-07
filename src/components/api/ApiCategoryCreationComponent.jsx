@@ -25,6 +25,9 @@ import NebulaIcon from '../NebulaIcon';
 import NebulaAppBar from '../NebulaAppBar';
 import Chip from '@material-ui/core/Chip';
 
+import Snackbar from "@material-ui/core/Snackbar";
+import MySnackbarContent from "../MySnackbarContent";
+
 const styles = theme => ({
   root: {
 
@@ -108,7 +111,7 @@ class ApiCategoryCreationComponent extends React.Component {
   }
 
   render() {
-    const { createApiCategory, classes, isApiCategoryCreationPending, isShowError, error } = this.props;
+    const { createApiCategory, classes, isApiCategoryCreationPending, isShowError, error, isShowErrorSnackBar, isShowSuccessSnackBar, hideErrorSnackbar, hideSuccessSnackbar} = this.props;
 
     const submitClickHandler = () => {
       let data = {
@@ -120,13 +123,46 @@ class ApiCategoryCreationComponent extends React.Component {
 
     return (
       <div>
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left"
+          }}
+          open={isShowErrorSnackBar}
+          autoHideDuration={1500}
+          onClose={hideErrorSnackbar}
+        >
+          <MySnackbarContent
+            onClose={hideErrorSnackbar}
+            variant="error"
+            message="Failed!"
+          />
+        </Snackbar>
+
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left"
+          }}
+          open={isShowSuccessSnackBar}
+          autoHideDuration={1500}
+          onClose={hideSuccessSnackbar}
+        >
+          <MySnackbarContent
+            onClose={hideSuccessSnackbar}
+            variant="success"
+            message="Success!"
+          />
+        </Snackbar>
+
+
         <NebulaAppBar />
         <main className={classes.mainContainer}>
           <div className={classes.content}>
 
             <FormControl className={classes.formControl}>
               <Typography variant="h6" color="inherit" noWrap className={classes.newApiSpan}>
-                Create API Doc
+                Create API Category
                 <Tooltip title={ApiDocTooltipText} TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} placement="right">
                   <InfoRounded className={classes.apiDocInfo} />
                 </Tooltip>

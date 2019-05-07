@@ -24,6 +24,9 @@ import NebulaIcon from '../NebulaIcon';
 
 import NebulaAppBar from '../NebulaAppBar';
 
+import Snackbar from "@material-ui/core/Snackbar";
+import MySnackbarContent from "../MySnackbarContent";
+
 const styles = theme => ({
   root: {
 
@@ -309,7 +312,7 @@ class ApiCreationComponent extends React.Component {
   }
 
   render() {
-    const { classes, info, createApi } = this.props;
+    const { classes, info, createApi, isShowErrorSnackBar, isShowSuccessSnackBar, hideErrorSnackbar, hideSuccessSnackbar} = this.props;
 
     let apiCategories = info && info.content ? info.content : [];
 
@@ -365,7 +368,7 @@ class ApiCreationComponent extends React.Component {
       this.state.headers.forEach((header, index) => {
         let headerName = header.name,
             headerValue = header.value;
-        if (headerName != null && headerValue != null) {
+        if (headerName != null && headerValue != null && headerName != '') {
           apiInfoHeaders.push({
             name: headerName,
             value: headerValue.split(',')
@@ -390,6 +393,38 @@ class ApiCreationComponent extends React.Component {
 
     return (
       <div className={classes.root}>
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left"
+          }}
+          open={isShowErrorSnackBar}
+          autoHideDuration={1500}
+          onClose={hideErrorSnackbar}
+        >
+          <MySnackbarContent
+            onClose={hideErrorSnackbar}
+            variant="error"
+            message="Failed!"
+          />
+        </Snackbar>
+
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left"
+          }}
+          open={isShowSuccessSnackBar}
+          autoHideDuration={1500}
+          onClose={hideSuccessSnackbar}
+        >
+          <MySnackbarContent
+            onClose={hideSuccessSnackbar}
+            variant="success"
+            message="Success!"
+          />
+        </Snackbar>
+
         <CssBaseline />
         <NebulaAppBar />
 

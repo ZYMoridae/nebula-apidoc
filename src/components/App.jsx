@@ -13,6 +13,7 @@ import ApiManagement from "../components/management/ApiManagement";
 import ApiCategoryManagement from "../components/management/ApiCategoryManagement";
 
 import PrivateRoute from "../components/PrivateRoute";
+import AdminRoute from "../components/AdminRoute";
 
 import Footer from "./Footer";
 
@@ -89,12 +90,21 @@ class App extends React.Component {
           <div>
             {/* <HeaderBarContainer></HeaderBarContainer> */}
             <PrivateRoute exact path="/" component={Home} />
-            
-            <PrivateRoute exact path="/management" component={HomeManagementPage} />
-            <PrivateRoute exact path="/management/api" component={ApiManagementPage} />
-            <PrivateRoute exact path="/management/api/new" component={ApiCreationContainerPage} />
-            <PrivateRoute exact path="/management/category" component={ApiCategoryManagementPage} />
-            <PrivateRoute exact path="/management/category/new" component={ApiCategoryCreationContainerPage} />
+            {sessionStorage.getItem("token") != undefined &&
+          sessionStorage.getItem("token") != "null" &&
+          sessionStorage.getItem("token") != "undefined" ? (
+            <div>
+              <AdminRoute exact path="/management" component={HomeManagementPage} />
+              <AdminRoute exact path="/management/api" component={ApiManagementPage} />
+              <AdminRoute exact path="/management/api/new" component={ApiCreationContainerPage} />
+              <AdminRoute exact path="/management/category" component={ApiCategoryManagementPage} />
+              <AdminRoute exact path="/management/category/new" component={ApiCategoryCreationContainerPage} />
+            </div>
+          ) : ''
+
+
+            }
+
             <Route exact path="/login" component={Login} />
             {/* <Footer></Footer> */}
           </div>

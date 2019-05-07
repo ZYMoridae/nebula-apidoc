@@ -193,11 +193,22 @@ class ApiBaseComponent extends Component {
                     ))}
                   </TableBody>
                 </Table>
-                <Typography variant="caption">Request Parameter</Typography>
-                {requestParameter.length > 0 &&
-                  renderRequestParameter(requestParameter, classes)}
-                <Typography variant="caption">Body</Typography>
-                <pre>{sampleRequest}</pre>
+
+                {requestParameter.length > 0 && 
+                  <div>
+                    <Typography variant="caption">Request Parameter</Typography>
+                    {renderRequestParameter(requestParameter, classes)}
+                  </div>
+                }
+
+                {sampleRequest && sampleRequest != '' &&
+                  <div>
+                    <Typography variant="caption">Body</Typography>
+                    <pre>{sampleRequest}</pre>
+                  </div>  
+                }
+
+
               </div>
             </Paper>
           </div>

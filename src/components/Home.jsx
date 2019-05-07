@@ -145,16 +145,18 @@ class Home extends React.Component {
       component: renderHome(classes)
     });
 
-    info.forEach((category, index) => {
-      let component = {
-        name: category.name,
-        component: ""
-      }
-      if(index == this.state.componentIndex - 1 && Array.isArray(apiInfos)) {
-        component.component = <CommonApiComponent apiData={apiInfos}/>
-      }
-      componentInfos.push(component);
-    });
+    if(Array.isArray(info)) {
+      info.forEach((category, index) => {
+        let component = {
+          name: category.name,
+          component: ""
+        }
+        if(index == this.state.componentIndex - 1 && Array.isArray(apiInfos)) {
+          component.component = <CommonApiComponent apiData={apiInfos}/>
+        }
+        componentInfos.push(component);
+      });
+    }
 
     const handleApiManagementClick = () => {
       location.href = '/management';

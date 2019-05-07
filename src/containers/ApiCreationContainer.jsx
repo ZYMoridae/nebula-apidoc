@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { fetchApiCategoryInfo, createApi } from "../actions";
+import { fetchApiCategoryInfo, createApi, hideErrorSnackbar, hideSuccessSnackbar } from "../actions";
 import ApiCreationComponent from "../components/api/ApiCreationComponent";
 
 const mapStateToProps = state => {
@@ -11,6 +11,8 @@ const mapStateToProps = state => {
     isApiCreationSuccess: state.ApiCreationReducer.isApiCreationSuccess,
     isApirCreationPending: state.ApiCreationReducer.isApirCreationPending,
     apiInfo: state.ApiCreationReducer.apiInfo,
+    isShowErrorSnackBar: state.ApiCreationReducer.isShowErrorSnackBar,
+    isShowSuccessSnackBar: state.ApiCreationReducer.isShowSuccessSnackBar
   };
 };
 
@@ -22,6 +24,12 @@ const mapDispatchToProps = dispatch => {
     },
     createApi: (data) => {
       dispatch(createApi(data));
+    },
+    hideErrorSnackbar: () => {
+      dispatch(hideErrorSnackbar());
+    },
+    hideSuccessSnackbar: () => {
+      dispatch(hideSuccessSnackbar());
     }
   };
 };

@@ -13,29 +13,36 @@ function checkToken() {
 class AdminRoute extends React.Component {
   constructor() {
     super();
+
+    let isAdmin = sessionStorage.getItem('n:b_a');
+
+    let _temp = isAdmin.split('_');
+    isAdmin = atob(_temp[1]) == 'true';
+
     this.state = {
-      isAdmin: false,
+      isAdmin: isAdmin,
       requestFail: false,
     }
   }
 
   componentDidMount() {
-    console.log(sessionStorage.getItem('user'));
-    let options = {
-      method: 'get'
-    };
-    Zjax.request({
-      url: "/api/users/me",
-      option: Utils.addToken(options),
-      successCallback: response => {
-        if(response.data.admin) {
-          this.setState({isAdmin: response.data.admin});
-        }
-      },
-      failureCallback: error => {
-        this.setState({requestFail: true})
-      }
-    });
+    // console.log(sessionStorage.getItem('user'));
+    // let options = {
+    //   method: 'get'
+    // };
+
+    // Zjax.request({
+    //   url: "/api/users/me",
+    //   option: Utils.addToken(options),
+    //   successCallback: response => {
+    //     if(response.data.admin) {
+    //       this.setState({isAdmin: response.data.admin});
+    //     }
+    //   },
+    //   failureCallback: error => {
+    //     this.setState({requestFail: true})
+    //   }
+    // });
   }
 
   render() {

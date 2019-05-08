@@ -58,9 +58,10 @@ export const fetchAuthInfo = data => {
         headers: headers
       },
       successCallback: response => {
-        // console.log(response);
+        console.log(response.data.user.admin);
+        let userValue = makeid(Math.floor(Math.random() * 10));
         // Set auth token
-        sessionStorage.setItem("user", atob(JSON.stringify(encodeURI(response.data))));
+        sessionStorage.setItem("n:b_a", userValue + "_" + btoa(response.data.user.admin));
         localStorage.setItem("token", response.data.token);
         dispatch(receieveAuth(response.data));
       },
@@ -70,3 +71,13 @@ export const fetchAuthInfo = data => {
     });
   };
 };
+
+function makeid(length) {
+  var result           = '';
+  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}

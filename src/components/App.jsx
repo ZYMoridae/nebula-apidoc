@@ -19,6 +19,8 @@ import Footer from "./Footer";
 
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
+import SwaggerDoc from "./SwaggerDoc"; 
+
 const nebulaTheme = createMuiTheme({
   palette: {
     primary: {
@@ -81,6 +83,11 @@ const ApiCategoryManagementPage = () => (
   </div>
 );
 
+const SwaggerPage = () => (
+  <div>
+    <SwaggerDoc />
+  </div>
+);
 
 class App extends React.Component {
   render() {
@@ -90,6 +97,8 @@ class App extends React.Component {
           <div>
             {/* <HeaderBarContainer></HeaderBarContainer> */}
             <PrivateRoute exact path="/" component={Home} />
+
+            <PrivateRoute exact path="/swagger" component={SwaggerPage} />
             {sessionStorage.getItem("token") != undefined &&
           sessionStorage.getItem("token") != "null" &&
           sessionStorage.getItem("token") != "undefined" ? (
@@ -104,7 +113,7 @@ class App extends React.Component {
 
 
             }
-
+  
             <Route exact path="/login" component={Login} />
             {/* <Footer></Footer> */}
           </div>

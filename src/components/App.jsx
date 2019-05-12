@@ -19,9 +19,12 @@ import Footer from "./Footer";
 
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
-import SwaggerDoc from "./SwaggerDoc"; 
+import SwaggerConfigContainer from "../containers/SwaggerConfigContainer"; 
 
 const nebulaTheme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
   palette: {
     primary: {
       // light: will be calculated from palette.primary.main,
@@ -85,7 +88,7 @@ const ApiCategoryManagementPage = () => (
 
 const SwaggerPage = () => (
   <div>
-    <SwaggerDoc />
+    <SwaggerConfigContainer />
   </div>
 );
 
@@ -96,10 +99,10 @@ class App extends React.Component {
         <MuiThemeProvider theme={nebulaTheme}>
           <div>
             {/* <HeaderBarContainer></HeaderBarContainer> */}
-            <PrivateRoute exact path="/" component={Home} />
+            <PrivateRoute exact path="/" component={SwaggerPage} />
 
-            <PrivateRoute exact path="/swagger" component={SwaggerPage} />
-            {sessionStorage.getItem("token") != undefined &&
+            {/* <PrivateRoute exact path="/swagger" component={SwaggerPage} /> */}
+            {/* {sessionStorage.getItem("token") != undefined &&
           sessionStorage.getItem("token") != "null" &&
           sessionStorage.getItem("token") != "undefined" ? (
             <div>
@@ -109,7 +112,7 @@ class App extends React.Component {
               <AdminRoute exact path="/management/category" component={ApiCategoryManagementPage} />
               <AdminRoute exact path="/management/category/new" component={ApiCategoryCreationContainerPage} />
             </div>
-          ) : ''
+          ) : '' */}
 
 
             }

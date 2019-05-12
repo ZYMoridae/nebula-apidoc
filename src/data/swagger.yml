@@ -1,0 +1,438 @@
+openapi: 3.0.1
+info:
+  title: Nebula
+  description: 'This is the Nebula API doc'
+  # termsOfService: http://swagger.io/terms/
+  contact:
+    email: ashzhouyue@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+# externalDocs:
+  # description: Find out more about Nebula
+  # url: http://swagger.io
+servers:
+- url: http://ec2-13-54-77-173.ap-southeast-2.compute.amazonaws.com:8080/api
+# - url: http://petstore.swagger.io/v2
+tags:
+- name: Auth
+  description: auth service
+- name: User
+  description: user service
+  # externalDocs:
+  #   description: Find out more
+  #   url: http://swagger.io
+- name: Token
+  description: token service
+- name: Product
+  description: product service
+- name: Cart
+  description: cart service
+- name: Wishlist
+  description: wishlist service
+- name: Shipper
+  description: shipper service
+- name: Payment
+  description: payment service
+  # externalDocs:
+  #   description: Find out more about our store
+  #   url: http://swagger.io
+paths:
+  /auth:
+    post:
+      tags:
+      - Auth
+      summary: Auth user
+      operationId: authUser
+      requestBody:
+        description: Base auth header need to be added to the header
+        content: {}
+        required: false
+      responses:
+        200:
+          description: Valid user object
+          content: {}
+        # 404:
+        #   description: Pet not found
+        #   content: {}
+        # 405:
+        #   description: Validation exception
+        #   content: {}
+      security:
+      - petstore_auth:
+        - write:pets
+        - read:pets
+  /token/refresh:
+    post:
+      tags:
+      - Token
+      description: Refresh user token
+      operationId: refreshToken
+      parameters:
+      - name: refreshToken
+        in: query
+        description: Refresh token which intiliazed gave by server
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RefreshTokenReponse'
+      security:
+      - petstore_auth:
+        - write:pets
+        - read:pets
+  /users:
+    post:
+      tags:
+      - User
+      summary: Create user
+      description: Create user
+      operationId: createUser
+      requestBody:
+        description: Base auth header need to be added to the header
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      security:
+      - petstore_auth:
+        - write:pets
+        - read:pets
+  /shippers:
+    get:
+      tags:
+      - Shipper
+      summary: Find pet by ID
+      description: Returns a single pet
+      operationId: getPetById
+      parameters:
+      - name: petId
+        in: path
+        description: ID of pet to return
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Pet not found
+          content: {}
+      security:
+      - api_key: []
+    post:
+      tags:
+      - Shipper
+      summary: Updates a pet in the store with form data
+      operationId: updatePetWithForm
+      parameters:
+      - name: petId
+        in: path
+        description: ID of pet that needs to be updated
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                name:
+                  type: string
+                  description: Updated name of the pet
+                status:
+                  type: string
+                  description: Updated status of the pet
+      responses:
+        405:
+          description: Invalid input
+          content: {}
+      security:
+      - petstore_auth:
+        - write:pets
+        - read:pets
+  /shipper/{id}:
+    get:
+      tags:
+      - Shipper
+      summary: uploads an image
+      operationId: uploadFile
+      parameters:
+      - name: id
+        in: path
+        description: ID of pet to update
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+      - petstore_auth:
+        - write:pets
+        - read:pets
+    delete:
+      tags:
+      - Shipper
+      parameters:
+      - name: id
+        in: path
+        description: ID of pet to update
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+      - petstore_auth:
+        - write:pets
+        - read:pets  
+components:
+  schemas:
+    RefreshTokenReponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+    CreateUserRequest:
+      type: object
+      properties:
+        password:
+          type: string
+        useranme:
+          type: string
+        email:
+          type: string
+        role_id:
+          type: integer
+          format: int64
+        telephone:
+          type: string
+        address1: 
+          type: string
+        address2:
+          type: string
+        firstname:
+          type: string
+        lastanme:
+          type: string
+        gender:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        useranme:
+          type: string
+        email:
+          type: string
+        role:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+            code:
+              type: string
+        telephone:
+          type: string
+        address1: 
+          type: string
+        address2:
+          type: string
+        firstname:
+          type: string
+        lastanme:
+          type: string
+        gender:
+          type: string
+        admin:
+          type: boolean
+        token:
+          type: string
+        refreshToken:
+          type: string
+    Role:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        code:
+          type: string
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        petId:
+          type: integer
+          format: int64
+        quantity:
+          type: integer
+          format: int32
+        shipDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          description: Order Status
+          enum:
+          - placed
+          - approved
+          - delivered
+        complete:
+          type: boolean
+          default: false
+      xml:
+        name: Order
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      xml:
+        name: Category
+    # User:
+    #   type: object
+    #   properties:
+    #     id:
+    #       type: integer
+    #       format: int64
+    #     username:
+    #       type: string
+    #     firstName:
+    #       type: string
+    #     lastName:
+    #       type: string
+    #     email:
+    #       type: string
+    #     password:
+    #       type: string
+    #     phone:
+    #       type: string
+    #     userStatus:
+    #       type: integer
+    #       description: User Status
+    #       format: int32
+    #   xml:
+    #     name: User
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      xml:
+        name: Tag
+    Pet:
+      required:
+      - name
+      - photoUrls
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        category:
+          $ref: '#/components/schemas/Category'
+        name:
+          type: string
+          example: doggie
+        photoUrls:
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+          items:
+            type: string
+        tags:
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/Tag'
+        status:
+          type: string
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+      xml:
+        name: Pet
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://petstore.swagger.io/oauth/dialog
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header

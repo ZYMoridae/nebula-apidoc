@@ -171,7 +171,7 @@ class ApiBaseComponent extends Component {
           </Typography>
           <Divider className={classes.divider} />
           <div className={classes.pageContainer}>
-            <Typography variant="body2">Sample Request</Typography>
+            <Typography variant="body1">Sample Request</Typography>
             <Paper className={classes.subContainer}>
               <div className={classes.codeBlock}>
                 <Typography variant="caption">Headers</Typography>
@@ -214,7 +214,7 @@ class ApiBaseComponent extends Component {
           </div>
 
           <div className={classes.pageContainer}>
-            <Typography variant="body2">Sample Response</Typography>
+            <Typography variant="body1">Sample Response</Typography>
             <Paper className={classes.subContainer}>
               <div className={classes.codeBlock}>
                 <Typography variant="caption">Body</Typography>

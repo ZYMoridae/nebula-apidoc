@@ -5,12 +5,14 @@ import LoginReducer from "./LoginReducer";
 import HomeReducer from "./HomeReducer";
 import ApiCreationReducer from "./ApiCreationReducer";
 import ApiCategoryCreationReducer from "./ApiCategoryCreationReducer";
+import SwaggerConfigReducer from "./SwaggerConfigReducer";
 
 const apiDocApp = combineReducers({
   LoginReducer,
   HomeReducer,
   ApiCreationReducer,
-  ApiCategoryCreationReducer
+  ApiCategoryCreationReducer,
+  SwaggerConfigReducer
 });
 
 export default apiDocApp;
